@@ -12,5 +12,5 @@ import com.example.entity.Orders;
  * @since 2022-06-06
  */
 public interface OrdersService extends IService<Orders> {
-
+    public void submit(Orders orders);
 }
