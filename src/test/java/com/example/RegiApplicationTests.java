@@ -1,13 +1,14 @@
 package com.example;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.Mapper.EmployeeMapper;
-import com.example.entity.Employee;
+
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisKeyValueTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
@@ -15,12 +16,27 @@ import java.util.List;
 @MapperScan("com.example.Mapper")
 class RegiApplicationTests {
     @Autowired
- private EmployeeMapper ordersMapper;
+    private RedisTemplate redisTemplate;
     @Test
     void contextLoads() {
-        QueryWrapper<Employee> o = new QueryWrapper<>();
-        List<Employee> o1 = ordersMapper.selectList(o);
-        System.out.println(o1);
+
+        ListOperations listOperations = redisTemplate.opsForList();
+        listOperations.leftPush("dd","dd");
+        List<String> range = listOperations.range("dd",0,-1);
+        for (String o : range) {
+            System.out.println(o);
+        }
+        Long dd = listOperations.size("dd");
+        int i = dd.intValue();
+        System.out.println(i);
+        for (int i1 = 0; i1 < i; i1++) {
+           listOperations.rightPop("dd");
+        }
+    }
+        @Test
+    public void set(){
+
+        }
     }
 
-}
+
